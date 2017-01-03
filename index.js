@@ -1,6 +1,5 @@
 let express = require('express');
 let bodyParser = require('body-parser');
-let http = require('http');
 let app = express();
 
 app.use(bodyParser.json());
@@ -19,13 +18,12 @@ app.get("/messages", (req, res) => {
 });
 
 app.post("/message", (req, res) => {
-  console.log(req.body);
   if(!req.body.pseudo || !req.body.message || !req.body.date) {
     return res.send({"status": "error", "message": "missing a parameter"});
   } else {
     messages.push(req.body);
-    let status = 200;
-    return res.status(status).end(http.STATUS_CODES[status]);
+    console.log("Message received %s", req.body);
+    return res.send(req.body);
   }
 });
 
