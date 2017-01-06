@@ -14,6 +14,7 @@ let messages = [{
 }];
 
 app.get("/messages", (req, res) => {
+  messageLog("All messages sent");
   res.send(messages);
 });
 
@@ -22,14 +23,16 @@ app.post("/message", (req, res) => {
     return res.send({"status": "error", "message": "missing a parameter"});
   } else {
     messages.push(req.body);
-    console.log("Message received %s", req.body);
+    messageLog("Message received "+req.body);
     return res.send(req.body);
   }
 });
 
 let server = app.listen(SERVER_PORT,
-  () => console.log("Listening on port %s...", server.address().port)
+  () => messageLog("Listening on port " + server.address().port + "...")
 );
+
+let messageLog = (message) => console.log("[%s] %s", new Date().toISOString(), message);
 
 
 /* Documentation
